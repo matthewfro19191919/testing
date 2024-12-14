@@ -10,8 +10,16 @@ import flixel.input.keyboard.FlxKey;
 
 import lime.utils.Assets;
 import lime.media.AudioBuffer;
-import lime.media.vorbis.VorbisFile;
+
+// DD: OpenAL stuff
+import lime.media.openal.ALBuffer;
+import lime.media.openal.ALSource;
+import lime.media.openal.ALContext;
 import lime.utils.UInt8Array;
+import lime.media.vorbis.VorbisFile;
+import lime.media.openal.AL;
+import lime.media.openal.ALC;
+import lime.media.openal.ALDevice;
 
 import flash.media.Sound;
 import flash.geom.Rectangle;
