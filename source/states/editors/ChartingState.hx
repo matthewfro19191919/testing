@@ -214,6 +214,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var vortexEnabled:Bool = false;
 	var waveformEnabled:Bool = false;
 	var waveformTarget:WaveformTarget = INST;
+
 	var dada:SyllableSound;
 	var dadi:SyllableSound;
 	var dadu:SyllableSound;
@@ -245,6 +246,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var pluckData:UInt8Array;
 	var pluckbuffer:ALBuffer = AL.createBuffer();
 	var pluck:ALSource = AL.createSource();
+
+	var _song:SwagSong;
 
 	override function create()
 	{
