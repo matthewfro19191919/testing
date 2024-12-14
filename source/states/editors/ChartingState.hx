@@ -234,6 +234,18 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
 
+	// DD: User-selected pitch value
+	var curSelectedPitch:Float = 1.0;
+	var curSelectedPitchOffset:Float = 0;
+	var curSelectedSyllable:Int = 0;
+	var curSelectedVolume:Float = 1.0;
+
+	// DD: Necessary OpenAL sound stuff
+	var vorb:VorbisFile = VorbisFile.fromFile("assets/shared/sounds/notepluck.ogg");
+	var pluckData:UInt8Array;
+	var pluckbuffer:ALBuffer = AL.createBuffer();
+	var pluck:ALSource = AL.createSource();
+
 	override function create()
 	{
 		if(Difficulty.list.length < 1) Difficulty.resetList();
@@ -613,6 +625,11 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			stage: 'stage',
 			format: 'psych_v1'
 		};
+
+		// DD: Intialize OpenAL sound stuff
+		pluckData = SyllableSound.readVorbisFileBuffer(vorb);
+		AL.bufferData(pluckbuffer, AL.FORMAT_STEREO16, pluckData, pluckData.length, 44100);
+		AL.sourcei(pluck, AL.BUFFER, pluckbuffer);
 		dada = new SyllableSound(_song.player2, "a");
 		dadi = new SyllableSound(_song.player2, "i");
 		dadu = new SyllableSound(_song.player2, "u");
@@ -624,7 +641,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		bfe = new SyllableSound(_song.player1, "e");
 		bfo = new SyllableSound(_song.player1, "o");
 		allSyllableSounds = [dada, dadi, dadu, dade, dado, bfa, bfi, bfu, bfe, bfo];
-
 		FlxG.mouse.visible = true;
 		FlxG.save.bind('funkinarrowvocals');
 
