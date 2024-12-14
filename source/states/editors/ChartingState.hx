@@ -232,7 +232,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var bfSampleMute = false;
 	var dadSampleMute = false;
 
-	var curRenderedNotes:FlxTypedGroup<Note>;
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
 
 	// DD: User-selected pitch value
