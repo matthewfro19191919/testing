@@ -33,6 +33,8 @@ import objects.HealthIcon;
 import objects.Note;
 import objects.StrumNote;
 
+import lime.media.vorbis.VorbisFile;
+
 using DateTools;
 
 typedef UndoStruct = {
