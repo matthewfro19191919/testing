@@ -11,6 +11,7 @@ import flixel.input.keyboard.FlxKey;
 import lime.utils.Assets;
 import lime.media.AudioBuffer;
 import lime.media.vorbis.VorbisFile;
+import lime.utils.UInt8Array;
 
 import flash.media.Sound;
 import flash.geom.Rectangle;
