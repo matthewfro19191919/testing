@@ -12,6 +12,7 @@ import lime.media.vorbis.VorbisFile;
 import sys.FileSystem;
 import lime.media.openal.ALSource;
 import lime.media.openal.ALBuffer;
+import states.TitleState;
 
 class SyllableSound
 {
