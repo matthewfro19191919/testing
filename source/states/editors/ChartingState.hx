@@ -214,6 +214,25 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var vortexEnabled:Bool = false;
 	var waveformEnabled:Bool = false;
 	var waveformTarget:WaveformTarget = INST;
+	var dada:SyllableSound;
+	var dadi:SyllableSound;
+	var dadu:SyllableSound;
+	var dade:SyllableSound;
+	var dado:SyllableSound;
+
+	var bfa:SyllableSound;
+	var bfi:SyllableSound;
+	var bfu:SyllableSound;
+	var bfe:SyllableSound;
+	var bfo:SyllableSound;
+
+	var allSyllableSounds:Array<SyllableSound>;
+
+	var bfSampleMute = false;
+	var dadSampleMute = false;
+
+	var curRenderedNotes:FlxTypedGroup<Note>;
+	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
 
 	override function create()
 	{
@@ -594,6 +613,21 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			stage: 'stage',
 			format: 'psych_v1'
 		};
+		dada = new SyllableSound(_song.player2, "a");
+		dadi = new SyllableSound(_song.player2, "i");
+		dadu = new SyllableSound(_song.player2, "u");
+		dade = new SyllableSound(_song.player2, "e");
+		dado = new SyllableSound(_song.player2, "o");
+		bfa = new SyllableSound(_song.player1, "a");
+		bfi = new SyllableSound(_song.player1, "i");
+		bfu = new SyllableSound(_song.player1, "u");
+		bfe = new SyllableSound(_song.player1, "e");
+		bfo = new SyllableSound(_song.player1, "o");
+		allSyllableSounds = [dada, dadi, dadu, dade, dado, bfa, bfi, bfu, bfe, bfo];
+
+		FlxG.mouse.visible = true;
+		FlxG.save.bind('funkinarrowvocals');
+
 		Song.chartPath = null;
 		loadChart(song);
 	}
@@ -924,6 +958,31 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 			if(!songFinished) Conductor.songPosition = FlxMath.bound(FlxG.sound.music.time + Conductor.offset, 0, FlxG.sound.music.length - 1);
 			updateScrollY();
+		}
+
+		if (FlxG.sound.music.playing)
+		{
+			for (note in curRenderedNotes)
+			{
+				if (note.strumTime - Conductor.songPosition <= 0 && note.strumTime - Conductor.songPosition > -60 && !note.tooLate)
+				{
+					// DD: Play those vocal samples
+					if (!dadSampleMute
+						&& ((!_song.notes[curSection].mustHitSection && note.x <= GRID_SIZE * 3)
+							|| (_song.notes[curSection].mustHitSection && note.x > GRID_SIZE * 3)))
+					{
+						PlayState.handleVocalPlayback(note, dada, dadi, dadu, dade, dado);
+					}
+					else if (!bfSampleMute
+						&& ((_song.notes[curSection].mustHitSection && note.x <= GRID_SIZE * 3)
+							|| (!_song.notes[curSection].mustHitSection && note.x > GRID_SIZE * 3)))
+					{
+						PlayState.handleVocalPlayback(note, bfa, bfi, bfu, bfe, bfo);
+					}
+
+					note.tooLate = true;
+				}
+			}
 		}
 
 		super.update(elapsed);
